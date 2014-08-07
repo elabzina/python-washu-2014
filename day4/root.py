@@ -17,3 +17,5 @@ def f_sqr(n,g,p=0.001,max_steps=10000000):
 	return g
 
 print f_sqr(9,1)
+
+
