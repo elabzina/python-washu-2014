@@ -23,3 +23,5 @@ The system of classes can be briefly explained as follows:
     - Portfolio - the wrapper for all financial instruments.
 
 functions.py contains functions independent relative to the classes above 
+
+The log of the operations is stored in the program folder. 

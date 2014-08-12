@@ -3,7 +3,7 @@ from functions import *
   
 class FinInstrument(object):
 
-#initialization of the common field of all financial instruments
+#initialization of the common fields of all financial instruments
     def __init__(self, name, type):
         self.name = name
         self.type = type 
@@ -52,7 +52,6 @@ class Stock(FinInstrument):
 	def buy(self, x, cash):
 		if (not self.validate(x,cash)): return 0
 		self.amount+= x
-		#self.price is randomreturn(cash - self.price*x)
 		return (x*self.price)
 
 	def sell(self, x):
@@ -100,7 +99,7 @@ class MutualFond(FinInstrument):
 class Bond(FinInstrument):
 
 	def __init__(self, price,name):
-		FinInstrument.__init__(self, name, "Bond")
+		FinInstrument.__init__(self, name, "bond")
 		self.price = price
 
 			
@@ -111,24 +110,21 @@ class Bond(FinInstrument):
 			print "The input is not an interger"
 			return False
 		return True
-			
+
 	def buy(self, x, cash):
 		if (not self.validate(x,cash)): return 0
-		self.amount+= x
-		return (-x*self.price)
-
-#which for bond means to return, so the cash amount decreases 
+		self.amount= +x
+		#self.price is randomreturn(cash - self.price*x)
+		return (-x*self.price)*(1 + random.random())
 
 	def sell(self, x):
-		if (x > self.amount):
-			print "Not have enough stocks of this type"
-			return 0
+		if (not globalValidate(x)): return 0
+		if (x>self.amount): return 0
 		self.amount-=x
-		#self price is random, but you give away more than you took
-		return -x*self.price*(1+random.random())
+		#self price is random
+		return -x*self.price
 
-
-
+      
 class FinList(object):
 
     def __init__(self,type):
@@ -239,6 +235,6 @@ class PortfolioBond(Portfolio):
     
     def __str__(self):
         return ("cash:\t \t" + str(round(self.cash,2)) +  '\n' + str(self.stocks) + str(self.bonds) + str(self.mf)  + '\n'+'\n') 
-
+    
    
       

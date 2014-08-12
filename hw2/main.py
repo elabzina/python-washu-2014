@@ -31,30 +31,6 @@ print p
 p.history()
 
 
-p = PortfolioBond()
-p.addCash(300.50)
-print p
-s = Stock(20,"HFH")
-p.buyStock(5,s)
-print p
-b = Bond(12,"KJK")
-mf1 = MutualFond("BRT")
-mf2 = MutualFond("GHT")
-p.buyMutualFund(10.3, mf1)
-print p
-p.buyBond(11,b)
-print p
-p.buyMutualFund(2,mf2)
-print p
-p.sellMutualFund("BRT",3)
-print p
-p.sellMutualFund("HFH",1)
-print p
-p.withdrawCash(50)
-print p
-p.sellBond(11,"KJK")
-p.history()
-
 
 
 
