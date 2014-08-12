@@ -1,0 +1,28 @@
+2014-08-12 07:29:05  Cash added: 300.5 residual: 300.5
+2014-08-12 07:29:05  Stock bought: 5 HFH for 200.5 residual: 100.0
+2014-08-12 07:29:05  Stock bought: 3 HFH for 40.0 residual: 60.0
+2014-08-12 07:29:05  Stock sold: 3 HFH for 60.77 residual: 120.77
+2014-08-12 07:29:05  Mutual funds bought: 10.3 BRT for 10.3 residual: 110.47
+2014-08-12 07:29:05  Mutual funds bought: 2 GHT for 2.0 residual: 108.47
+2014-08-12 07:29:05  Mutual funds sold: 3 BRT for 3.16 residual: 111.63
+2014-08-12 07:29:05  Cash withdrawn: 50.0 residual: 61.63
+
+ 
+2014-08-12 07:31:30  Cash added: 300.5 residual: 300.5
+2014-08-12 07:31:30  Stock bought: 5 HFH for 200.5 residual: 100.0
+2014-08-12 07:31:30  Stock bought: 3 HFH for 40.0 residual: 60.0
+2014-08-12 07:31:30  Stock sold: 3 HFH for 57.78 residual: 117.78
+2014-08-12 07:31:30  Mutual funds bought: 10.3 BRT for 10.3 residual: 107.48
+2014-08-12 07:31:30  Mutual funds bought: 2 GHT for 2.0 residual: 105.48
+2014-08-12 07:31:30  Mutual funds sold: 3 BRT for 2.73 residual: 108.21
+2014-08-12 07:31:30  Cash withdrawn: 50.0 residual: 58.21
+
+ 
+2014-08-12 07:31:57  Cash added: 300.5 residual: 300.5
+2014-08-12 07:31:57  Stock bought: 5 HFH for 200.5 residual: 100.0
+2014-08-12 07:31:57  Stock bought: 3 HFH for 40.0 residual: 60.0
+2014-08-12 07:31:57  Stock sold: 3 HFH for 80.71 residual: 140.71
+2014-08-12 07:31:57  Mutual funds bought: 10.3 BRT for 10.3 residual: 130.41
+2014-08-12 07:31:57  Mutual funds bought: 2 GHT for 2.0 residual: 128.41
+2014-08-12 07:31:57  Mutual funds sold: 3 BRT for 2.98 residual: 131.4
+2014-08-12 07:31:57  Cash withdrawn: 50.0 residual: 81.4

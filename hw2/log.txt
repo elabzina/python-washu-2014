@@ -1,0 +1,8 @@
+2014-08-12 07:33:02  Cash added: 300.5 residual: 300.5
+2014-08-12 07:33:02  Stock bought: 5 HFH for 200.5 residual: 100.0
+2014-08-12 07:33:02  Stock bought: 3 HFH for 40.0 residual: 60.0
+2014-08-12 07:33:02  Stock sold: 3 HFH for 31.53 residual: 91.53
+2014-08-12 07:33:02  Mutual funds bought: 10.3 BRT for 10.3 residual: 81.23
+2014-08-12 07:33:02  Mutual funds bought: 2 GHT for 2.0 residual: 79.23
+2014-08-12 07:33:02  Mutual funds sold: 3 BRT for 3.21 residual: 82.44
+2014-08-12 07:33:02  Cash withdrawn: 50.0 residual: 32.44
