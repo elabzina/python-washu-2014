@@ -1,6 +1,6 @@
 #This file contains two static functions to measure the number of the comparisons for a given sorting algorithm. sortMethod is the parameter linking to a sorting algorithm
 #measureSpeedSingle this is the function which runs the sorting algorithm iter times for a random array of the length N
-#measureSpeed applies measureSpeedSingle to arrays of length from 2 to maxN iter times each. It returns the average number of reassignments for each i, this output is used for the plot  
+#measureSpeed applies measureSpeedSingle to arrays of length from 2 to maxN iter times each. It returns the average number of comparisons for each i, this output is used for the plot  
 
 from random import *
 from sort_methods import wrapMethod
