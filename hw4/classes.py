@@ -106,7 +106,7 @@ class LinkedList():
             self.start=aux
 
    #function to understand whether the list has a cycle
-   #the idea is to move the lookup pointer node by node in the list cheching whether the link of the pointer is linked 
+   #the idea is to move the lookup pointer node by node in the list checking whether the link of the pointer is linked 
    #to a node behind the lookup pointer
     def isCycle(self):
         if (self.start==None): return False
