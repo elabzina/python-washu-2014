@@ -19,7 +19,7 @@ class LinkedList():
     @staticmethod
     def intCheck(value):
         if (not isinstance((value),int)):
-            print "The number you intered is not an interger!"
+            print "The number you entered is not an interger!"
             return False
         return True
 
