@@ -1,125 +1,214 @@
-#this file contains the sorting methods and the wrapper function to calculate the number of comparisons through the use of the global variable counter
-#the wrapper to unify all the sorting methods to return the number of comparisons
-counter = 0
+from bs4 import BeautifulSoup
+import csv 
+from nltk.util import clean_html
+from datetime import *
+import urllib2 
+import sys
 
-#This function is used for the tests. Returns sorted d in an explicit form.
-def getDataSet(sortMethod,d):
-    sortMethod(d)
-    return d
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
-def wrapMethod(sortMethod,d):
-    global counter
-    counter = 0
-    sortMethod(d)
-    return counter
+#this is needed to avoid difficulties with the encoding. without this on windows the default is cp1251, which may get a lot trouble 
+#while reading a file 
 
-#Simple bubble sort
-def bubble(d):
-    global counter
-    n = len(d)
-    for i in range(0,n):
-        for j in range(0,n-i-1):
-            counter+=1
-            if (d[j+1]<d[j]):
-                t = d[j]
-                d[j]= d[j+1]
-                d[j+1] =t
-                
+order=-1
+# What page? 
+page_to_scrape = 'https://supers0nick.wordpress.com/'
+
+# What info do we want? 
+headers = ["Text", "Links","Related to a blogposting"]
+
+# Where do we save info?
+
+filename = "blog_log.csv"
+readFile = open(filename, "wb")
+csvwriter = csv.writer(readFile)
+csvwriter.writerow(headers)
+
+# Open webpage
+webpage = urllib2.urlopen(page_to_scrape)
+
+# Parse it
+soup = BeautifulSoup(webpage.read())
+soup.prettify()
+
+#Here the difficulty, if to follow the task exactly, is that the links time and comments are actually links themselves. 
+#While everything related to one blogpost is contained within div tag.
+#What I would do (this is one of the approaches to this situations, obviously): 
+#1) I will output all links and their titles (possible that some of them are repetitive or/and have no title) in a file links_store.csv
+#each link will have a flag is_post, if this is one of the links related to a post (comments, date, post header)
+#2) Afterwards I create another file for the blogposts,blog_store.csv, where I put 
+#link | post title | number of comments | date of creation
+#the entities are to be sorted in the chronological order
+
+#1
+links = soup.findAll("a")
+
+filename = "links_store.csv"
+readFile = open(filename, "wb")
+csvwriter = csv.writer(readFile)
+csvwriter.writerow(headers)
+
+
+for l in links:
+	name = l.get_text()
+	address = l['href']
+	post=""
+	#the trick is that this is a new blog and a link leads to a post iff it contains the date in its address
+	if "2014" in address: post="Yes"
+	else: post="No"
+	csvwriter.writerow([name, address,post])
+
+readFile.close()
+
+#2 
+divs = soup.findAll("div")
+
+#blogposting are of the class entry-title, which is defined on <h2>-level
+#the general structure is:
+#<div><h2 class ...>
+# 
+
+#get titles of the posts, they'll parsed in a common loop further
+headers=soup.findAll("h2",attrs={'class':'entry-title'})
+
+#get dates of the posts, they'll parsed in a common loop further
+dates=soup.findAll("span",attrs={'class':'entry-date'})
+ 
+#get the "tag group" with the comments
+comments=soup.findAll("span",attrs={'class':'comments-link'})
+ 
+def make_date(str):
+    return  (datetime.strptime(str.get_text(), '%B %d, %Y')).strftime('%x')
+
+def num(s):
+    try:
+        return int(s)
+    except ValueError:
+        return ""
+	
+def parse_comments(str):
+    if (not isinstance(num(str[0]), int)): return 0
+    i=0
+    while str[i]!=" ": i+=1
+    return(num(str[0:i]))       
    
 
-#Impoved bubble sort, it stops working once the whole dataset has been looked through without a single reassignment
-def bubbleUpdated(d):
-    global counter
-    n = len(d)
-    flag=True
-    for i in range(0,n):
-        if (not flag): exit
-        flag=False
-        for j in range(0,n-i-1):
-            counter+=1
-            if (d[j+1]<d[j]):
-                t = d[j]
-                d[j]= d[j+1]
-                d[j+1] =t
-                flag=True
-  
+class blogpost():
+    def __init__(self,title,date,comments):
+        global order
+        self.comment=parse_comments(comments.get_text())
+        self.title=title.get_text()
+        self.http=(title.findAll('a')[0])['href']
+        self.date=make_date(date)
+        self.order=order+1
 
-    
-
-#mergeSort
-def mergesort(d):
-    a = mergeSort(d)
-    for i in range(0,len(a)): d[i]=a[i]
-           
-def mergeSort(d):
-    global counter
-    n = len(d)
-    counter+=1
-    if len(d) <= 1: return d
-    middle = len(d) / 2
-    left = d[0:middle]
-    right = d[middle:n] 
-    left = mergeSort(left)
-    right = mergeSort(right)
-    result = merge(left, right)
-    return result
-
-def merge(left,right):
-     global counter
-     result=[]
-     counter+=1
-     while (len(left) > 0 or len(right) > 0):
-        counter+=1
-        if (len(left) > 0 and len(right) > 0):
-            counter+1
-            if (left[0] <= right[0]):
-                result.append(left[0])
-                left = left[1:len(left)]
-            else:
-                result.append(right[0])
-                right = right[1:len(right)]
-        else:   
-            counter+=1
-            if (len(left) > 0):
-                    result.append(left[0])
-                    left = left[1:len(left)]    
-            else:   
-                    counter+1
-                    if (len(right) > 0):
-                        result.append(right[0])
-                    right = right[1:len(right)]
-        
-     return result 
-#quickSort
-
-#to unify this function with the rest of the sorting methods to be called with the wrapper function
-def quickSortCall(d):
-    quickSort(d,0,len(d)-1)
-
-def quickSort(S, p, r):
-    if (p < r):
-        q = Partition(S, p, r)
-        quickSort(S, p, q-1)
-        quickSort(S, q+1,r)
+    @staticmethod
+    def zero_counter(self):
+        global order
+        self.order=order=-1
 
 
-def Partition(S, p, r):
-    global counter
-    counter+=1
-    x = S[r]
-    counter+=1
-    i = p-1 
-    for j in range(p,r):
-        if (S[j] <= x):
-            i = i+1
-            t = S[j]
-            S[j]= S[i]
-            S[i] = t 
-            counter+=4
-    t=S[r]
-    S[r]=S[i+1] 
-    S[i+1]=t
-    counter+=4
-    return i+1
+class blogposts():
+    def __init__(self):
+        self.db=[]
+        self.len=-1
 
-    
+    def append(self,blog):
+        self.db.append(blog)
+        self.len+=1
+
+    #bubble sort based on date field
+    def sort(self):
+       for i in range(0,self.len):
+            for j in range(0,self.len-i):
+               if (self.db[j+1].date<=self.db[j].date):
+                    t = self.db[j]
+                    self.db[j]= self.db[j+1]
+                    self.db[j+1] =t
+
+
+ls = blogposts()
+
+for i in range(0,len(headers)):
+    ls.append(blogpost(headers[i],dates[i],comments[i]))
+	
+ls.sort()   
+headers = ["Link", "Title","Number of comments","Date"]
+filename = "blog_store.csv"
+readFile = open(filename, "wb")
+csvwriter = csv.writer(readFile)
+csvwriter.writerow(headers)          
+
+for i in range(0,ls.len):
+    csvwriter.writerow([ls.db[i].http,ls.db[i].title,ls.db[i].comment,ls.db[i].date])
+       
+      
+readFile.close()       
+    #d.strftime('%x')
+	
+	#print date_object = datetime.strptime('Jun 1 2005  1:33PM', '%b %d %Y %I:%M%p')
+	#date = str(d.day)+"."+str(d.month)+"."+str(d.year)
+	
+	#print date
+	#print headers[i]
+	#print dates[i]
+	#print comments[i]
+
+print ls	
+#divs = soup.findAll("a")
+#print len(divs)
+# Extract petitions on page
+#petitions = soup.findAll("a", href=re.compile('^/petition'))
+#petitions = soup.findAll("a", attrs={'class':'title'})
+#posts = soup.findAll("h2",attrs={'class':'entry-title'})
+#raw = soup.findAll("div")
+#candidates = []
+#candidates.append(raw)
+
+		
+			
+#print len(posts)
+
+#for link in links:
+	#p=link.findAll("h2")
+	#for p1 in p:
+	#	print p1
+	#print link
+	
+#for post in posts:
+#	print post
+
+'''
+for link in links:
+	if (link.findAll("h2",attrs={'class':'entry-title'})!=[]):
+		print link.findAll("h2",attrs={'class':'entry-title'})
+
+		'''
+'''
+links=soup.findAll("h2")
+'''
+'''
+for link in links:
+  link.findAll('a',href=True) 
+  str= link.get_text() + ": " + link['href']
+  print str
+  name = link.get_text()
+  address = link['href']
+  csvwriter.writerow([name, address])
+'''
+'''
+signatures = soup.findAll("div", attrs={'class':'num-sig'})
+print len(signatures)
+for signature in signatures:
+  s =(signature.find("span", attrs={'class':'num'})).get_text()
+  print s
+
+for i in range(20):
+  petition = petitions[i]
+  p =(petition.find("a")).get_text()
+  signature = signatures[i]
+  s = (signature.find("span", attrs={'class':'num'})).get_text()
+  csvwriter.writerow([p, s])
+'''
+
